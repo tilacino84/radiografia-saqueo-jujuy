@@ -15,6 +15,7 @@ MAPA EN VIVO/
 ├── index.html          — Estructura principal, imports, modal
 ├── styles.css          — Sistema de diseño completo (modos claro/oscuro, responsive)
 ├── app.js              — Lógica del mapa, IndexedDB, formulario, feed, Supabase hook
+├── schema.sql          — Esquema PostGIS + políticas RLS para Supabase
 ├── icons/
 │   ├── megamineria.svg — Ícono stencil ⛏ extractivismo/salares
 │   ├── monocultivo.svg — Ícono stencil 🌾 Yungas/tabaco
