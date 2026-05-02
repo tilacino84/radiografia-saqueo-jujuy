@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo stencil amarillo -->
+  <rect width="64" height="64" rx="6" fill="#FFD700" opacity="0.92"/>
+  <!-- Grunge texture dots -->
+  <circle cx="5" cy="5" r="1.5" fill="#000" opacity="0.15"/>
+  <circle cx="59" cy="8" r="1" fill="#000" opacity="0.12"/>
+  <circle cx="8" cy="59" r="1.5" fill="#000" opacity="0.1"/>
+  <circle cx="58" cy="58" r="1" fill="#000" opacity="0.13"/>
+  <!-- Hoja estilizada stencil -->
+  <g fill="#1a1a1a">
+    <!-- Tallo principal -->
+    <rect x="30" y="40" width="4" height="18" rx="1.5" fill="#1a1a1a"/>
+    <!-- Hoja grande -->
+    <path d="M32,42 C15,35 12,15 22,8 C28,4 36,6 40,14 C46,26 42,40 32,42Z" fill="#1a1a1a"/>
+    <!-- Nervadura central - vaciado para dar efecto stencil -->
+    <path d="M32,40 C30,30 26,18 24,10" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Nervaduras laterales -->
+    <path d="M28,30 C24,28 20,26 18,22" stroke="#FFD700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M30,22 C26,20 22,16 22,12" stroke="#FFD700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- Surco de tierra: líneas horizontales abajo -->
+    <rect x="10" y="54" width="44" height="2.5" rx="1" fill="#1a1a1a" opacity="0.7"/>
+    <rect x="14" y="58" width="36" height="2" rx="1" fill="#1a1a1a" opacity="0.5"/>
+    <rect x="8" y="51" width="48" height="1.5" rx="0.5" fill="#1a1a1a" opacity="0.4"/>
+  </g>
+  <!-- Triángulo de peligro pequeño (monocultivo agroquímico) -->
+  <polygon points="52,4 60,18 44,18" fill="#1a1a1a" opacity="0.85"/>
+  <text x="52" y="15" text-anchor="middle" font-size="8" font-family="monospace" fill="#FFD700" font-weight="bold">!</text>
+</svg>

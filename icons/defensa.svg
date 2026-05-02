@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo verde resistencia -->
+  <rect width="64" height="64" rx="6" fill="#228B22" opacity="0.95"/>
+  <!-- Grunge texture -->
+  <rect x="3" y="3" width="3" height="2" fill="#000" opacity="0.12"/>
+  <rect x="58" y="5" width="2" height="3" fill="#000" opacity="0.1"/>
+  <rect x="5" y="58" width="4" height="2" fill="#000" opacity="0.1"/>
+  <!-- Escudo stencil -->
+  <path d="M32,4 L52,12 L52,34 C52,46 32,60 32,60 C32,60 12,46 12,34 L12,12 Z" 
+        fill="#f0f0e8" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Manos entrelazadas dentro del escudo -->
+  <g fill="#1a1a1a" transform="translate(32,32) scale(0.85)">
+    <!-- Mano izquierda levantada -->
+    <path d="M-18,-8 C-22,-8 -22,-2 -18,-2 L-10,-2 C-10,0 -8,4 -8,8 L-4,8 C-4,4 -4,0 -6,-2 L-6,-2 L-6,-8 C-6,-12 -12,-14 -12,-10 L-12,-2" 
+          fill="#1a1a1a" opacity="0.85"/>
+    <!-- Mano derecha levantada -->
+    <path d="M18,-8 C22,-8 22,-2 18,-2 L10,-2 C10,0 8,4 8,8 L4,8 C4,4 4,0 6,-2 L6,-2 L6,-8 C6,-12 12,-14 12,-10 L12,-2" 
+          fill="#1a1a1a" opacity="0.85"/>
+    <!-- Unión - puño central -->
+    <ellipse cx="0" cy="0" rx="8" ry="6" fill="#1a1a1a" opacity="0.9"/>
+    <!-- Dedos simplificados -->
+    <rect x="-6" y="-10" width="3" height="8" rx="1.5" fill="#1a1a1a"/>
+    <rect x="-2" y="-12" width="3" height="10" rx="1.5" fill="#1a1a1a"/>
+    <rect x="2" y="-12" width="3" height="10" rx="1.5" fill="#1a1a1a"/>
+    <rect x="6" y="-10" width="3" height="8" rx="1.5" fill="#1a1a1a"/>
+  </g>
+  <!-- Estrella/sol pequeño arriba del escudo: símbolo de pueblo -->
+  <circle cx="32" cy="4" r="0" fill="none"/>
+  <!-- Texto RESISTENCIA en base del escudo -->
+  <text x="32" y="57" text-anchor="middle" font-size="5.5" font-family="'JetBrains Mono', monospace" 
+        fill="#f0f0e8" font-weight="bold" letter-spacing="0.5">DEFENSA</text>
+</svg>

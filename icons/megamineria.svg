@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo-->
+  <rect width="64" height="64" rx="6" fill="#FFD700" opacity="0.92"/>
+  <!-- Textura stencil: ruido de grunge con rectángulos irregulares -->
+  <rect x="2" y="2" width="3" height="2" fill="#000" opacity="0.18"/>
+  <rect x="58" y="6" width="2" height="3" fill="#000" opacity="0.15"/>
+  <rect x="10" y="58" width="4" height="2" fill="#000" opacity="0.12"/>
+  <rect x="50" y="2" width="2" height="2" fill="#000" opacity="0.18"/>
+  <!-- Pico de minero - trazo stencil grueso -->
+  <g fill="#1a1a1a" stroke="#1a1a1a" stroke-width="0.5">
+    <!-- Mango del pico -->
+    <rect x="28" y="36" width="8" height="20" rx="2" transform="rotate(-45 28 36)" fill="#1a1a1a"/>
+    <!-- Cabeza del pico -->
+    <polygon points="14,18 22,10 30,18 22,26" fill="#1a1a1a"/>
+    <polygon points="30,18 44,10 48,22 34,26" fill="#1a1a1a"/>
+    <!-- Detalle punta -->
+    <polygon points="44,10 52,8 48,22" fill="#333"/>
+  </g>
+  <!-- Cristal de litio stylizado - hexágono stencil -->
+  <polygon points="32,6 40,11 40,21 32,26 24,21 24,11" 
+           fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon points="32,11 37,14 37,20 32,23 27,20 27,14" fill="#1a1a1a" opacity="0.35"/>
+  <!-- Marca de urgencia: X cruzada -->
+  <line x1="4" y1="4" x2="12" y2="12" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="12" y1="4" x2="4" y2="12" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+</svg>

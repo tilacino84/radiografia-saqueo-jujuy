@@ -1,0 +1,25 @@
+# Sistema operativo
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Node (si se usa en el futuro)
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Entornos
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log

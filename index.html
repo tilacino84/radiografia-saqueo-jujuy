@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="Mapa colaborativo para documentar conflictos territoriales, extractivismo y defensa comunitaria en Jujuy, Argentina." />
+  <meta name="theme-color" content="#1a1a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Radiografía del Saqueo — Jujuy</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  
+  <!-- App CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header class="app-header" role="banner">
+    <div>
+      <span class="app-header__title">
+        ☢ Radiografía del Saqueo
+        <span class="app-header__subtitle">Bienes Comunes · Jujuy · Argentina</span>
+      </span>
+    </div>
+    <div class="header-actions">
+      <span class="layer-badge" id="layer-wms-badge" title="Capas IDEJuy activas">IDEJuy ●</span>
+      <span class="app-header__badge" id="report-total-badge">0 reportes</span>
+    </div>
+  </header>
+
+  <!-- Hint de selección de punto -->
+  <div class="selection-hint" id="selection-hint" role="status" aria-live="polite">
+    📍 Clic en el mapa para fijar la ubicación del reporte
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       LAYOUT PRINCIPAL
+  ═══════════════════════════════════════════ -->
+  <div class="app-layout">
+    <!-- MAPA -->
+    <div id="map" role="application" aria-label="Mapa de conflictos territoriales en Jujuy"></div>
+
+    <!-- SIDEBAR FEED -->
+    <aside class="sidebar" id="sidebar" aria-label="Feed de reportes recientes">
+      <div class="sidebar__header">
+        <p class="sidebar__title">↓ Reportes recientes</p>
+        <div class="filter-tabs" role="tablist" id="filter-tabs">
+          <button class="filter-tab active" role="tab" data-filter="todos" aria-selected="true">Todos</button>
+          <button class="filter-tab" role="tab" data-filter="megamineria">⛏ Minería</button>
+          <button class="filter-tab" role="tab" data-filter="monocultivo">🌾 Cultivo</button>
+          <button class="filter-tab active-green" role="tab" data-filter="defensa">🛡 Defensa</button>
+          <button class="filter-tab" role="tab" data-filter="otro">● Otro</button>
+        </div>
+      </div>
+      <div class="feed" id="feed" role="list" aria-label="Lista de reportes"></div>
+      <p class="report-count" id="feed-count">Cargando...</p>
+    </aside>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FABs (Floating Action Buttons)
+  ═══════════════════════════════════════════ -->
+  <button class="btn-reportar" id="btn-reportar" aria-label="Agregar nuevo reporte al mapa">
+    <span>+</span> Reportar territorio
+  </button>
+  
+  <button class="btn-toggle-sidebar" id="btn-toggle-sidebar" aria-label="Abrir/cerrar feed de reportes">
+    📋
+  </button>
+
+  <!-- ═══════════════════════════════════════════
+       LEYENDA
+  ═══════════════════════════════════════════ -->
+  <div class="map-legend" role="complementary" aria-label="Leyenda del mapa">
+    <p class="legend-title">Leyenda</p>
+    <div class="legend-item" data-filter-legend="megamineria">
+      <span class="legend-dot" style="background:#FFD700;"></span>
+      Megaminería / Salares
+    </div>
+    <div class="legend-item" data-filter-legend="monocultivo">
+      <span class="legend-dot" style="background:#b8860b;"></span>
+      Monocultivo / Yungas
+    </div>
+    <div class="legend-item" data-filter-legend="defensa">
+      <span class="legend-dot" style="background:#228B22;"></span>
+      Defensa Comunitaria
+    </div>
+    <div class="legend-item" data-filter-legend="otro">
+      <span class="legend-dot" style="background:#2c3e50;"></span>
+      Otro conflicto
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MODAL FORMULARIO
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay hidden" id="modal-overlay" role="dialog" 
+       aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" id="modal">
+      <div class="modal__header">
+        <span class="modal__title" id="modal-title">📡 Nuevo Reporte Territorial</span>
+        <button class="modal__close" id="modal-close" aria-label="Cerrar formulario">✕</button>
+      </div>
+      
+      <div class="modal__body">
+        <!-- Coordenadas -->
+        <div class="coord-display" id="coord-display">
+          <span class="coord-display__icon">📍</span>
+          <span>Coordenadas: </span>
+          <span class="coord-display__value" id="coord-value">—</span>
+        </div>
+
+        <!-- Categoría -->
+        <div class="form-group">
+          <label class="form-label">
+            Categoría del conflicto <span class="required">*</span>
+          </label>
+          <div class="category-grid" id="category-grid">
+            <button class="category-btn" data-cat="megamineria" type="button" aria-pressed="false">
+              <span class="category-btn__icon">⛏</span>
+              Megaminería
+            </button>
+            <button class="category-btn" data-cat="monocultivo" type="button" aria-pressed="false">
+              <span class="category-btn__icon">🌾</span>
+              Monocultivo
+            </button>
+            <button class="category-btn" data-cat="defensa" type="button" aria-pressed="false">
+              <span class="category-btn__icon">🛡</span>
+              Defensa
+            </button>
+            <button class="category-btn" data-cat="otro" type="button" aria-pressed="false">
+              <span class="category-btn__icon">●</span>
+              Otro
+            </button>
+          </div>
+        </div>
+
+        <!-- Título -->
+        <div class="form-group">
+          <label class="form-label" for="report-title">
+            Título del reporte <span class="required">*</span>
+          </label>
+          <input class="form-input" type="text" id="report-title" 
+                 placeholder="Ej: Exploración de litio en Salinas Grandes" 
+                 maxlength="120" autocomplete="off" />
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+          <label class="form-label" for="report-desc">
+            Descripción del conflicto
+          </label>
+          <textarea class="form-textarea" id="report-desc" 
+                    placeholder="Describe qué está ocurriendo, quiénes son los actores involucrados, qué impactos se observan..."
+                    maxlength="800"></textarea>
+        </div>
+
+        <!-- Fotos / Evidencia -->
+        <div class="form-group">
+          <label class="form-label">
+            Evidencia fotográfica (máx. 3 fotos)
+          </label>
+          <div class="photo-upload-area" id="photo-upload-area">
+            <input type="file" id="photo-input" accept="image/*" multiple 
+                   capture="environment" aria-label="Subir fotos de evidencia" />
+            <p class="photo-upload-area__icon">📷</p>
+            <p class="photo-upload-area__text">
+              Clic o arrastrá fotos aquí<br />
+              <span style="opacity:0.6">JPG, PNG, WEBP · máx. 5MB c/u · las imágenes se comprimen automáticamente</span>
+            </p>
+          </div>
+          <div class="upload-progress" id="upload-progress">
+            <div class="upload-progress__bar" id="progress-bar"></div>
+          </div>
+          <div class="photo-preview-grid" id="photo-preview-grid"></div>
+        </div>
+
+        <!-- Fuente -->
+        <div class="form-group">
+          <label class="form-label">Fuente</label>
+          <div class="source-toggle">
+            <label class="source-option">
+              <input type="radio" name="source" value="anonimo" checked id="source-anon" />
+              Anónima
+            </label>
+            <label class="source-option">
+              <input type="radio" name="source" value="registrado" id="source-reg" />
+              Registrada
+            </label>
+          </div>
+          <input class="form-input" type="text" id="report-source-name" 
+                 placeholder="Organización o persona (opcional)" 
+                 style="margin-top:8px;" maxlength="80" autocomplete="organization" />
+        </div>
+      </div>
+
+      <div class="modal__footer">
+        <button class="btn-secondary" id="btn-cancel">Cancelar</button>
+        <button class="btn-primary" id="btn-submit" disabled>Publicar reporte ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TOAST
+  ═══════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════ -->
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <!-- Compresión de imágenes en cliente -->
+  <script src="https://unpkg.com/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+  <!-- App -->
+  <script src="app.js"></script>
+</body>
+</html>
