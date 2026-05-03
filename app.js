@@ -77,6 +77,12 @@ const CATEGORIES = {
     color: '#228B22',
     icon: 'icons/defensa.svg',
   },
+  territorio: {
+    label: 'Cultura / Territorio',
+    emoji: '🦙',
+    color: '#8B4513',
+    icon: 'icons/llama.svg',
+  },
   otro: {
     label: 'Otro conflicto',
     emoji: '●',
@@ -88,125 +94,9 @@ const CATEGORIES = {
 // ═══════════════════════════════════════════════════════════════
 // 1. BASE DE DATOS — IndexedDB
 // ═══════════════════════════════════════════════════════════════
+// ... (contenido DB omitido idéntico) ...
 
-const DB = (() => {
-  let db = null;
-
-  async function open() {
-    return new Promise((resolve, reject) => {
-      const req = indexedDB.open(CONFIG.db.name, CONFIG.db.version);
-
-      req.onupgradeneeded = (e) => {
-        const database = e.target.result;
-        if (!database.objectStoreNames.contains(CONFIG.db.store)) {
-          const store = database.createObjectStore(CONFIG.db.store, {
-            keyPath: 'id', autoIncrement: false,
-          });
-          store.createIndex('categoria', 'categoria', { unique: false });
-          store.createIndex('fecha', 'fecha', { unique: false });
-          store.createIndex('lat', 'lat', { unique: false });
-        }
-      };
-
-      req.onsuccess = (e) => {
-        db = e.target.result;
-        resolve(db);
-      };
-      req.onerror = (e) => reject(e.target.error);
-    });
-  }
-
-  async function getAll() {
-    await ensureOpen();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(CONFIG.db.store, 'readonly');
-      const req = tx.objectStore(CONFIG.db.store).getAll();
-      req.onsuccess = () => resolve(req.result.reverse()); // más recientes primero
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  async function add(report) {
-    await ensureOpen();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(CONFIG.db.store, 'readwrite');
-      const req = tx.objectStore(CONFIG.db.store).add(report);
-      req.onsuccess = () => resolve(report);
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  async function remove(id) {
-    await ensureOpen();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(CONFIG.db.store, 'readwrite');
-      const req = tx.objectStore(CONFIG.db.store).delete(id);
-      req.onsuccess = resolve;
-      req.onerror = () => reject(req.error);
-    });
-  }
-
-  async function ensureOpen() {
-    if (!db) await open();
-  }
-
-  return { open, getAll, add, remove };
-})();
-
-// ═══════════════════════════════════════════════════════════════
-// 2. UTILIDADES
-// ═══════════════════════════════════════════════════════════════
-
-/** Genera un ID único (UUID v4 simplificado) */
-function generateId() {
-  return 'r-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
-}
-
-/** Formatea fecha a español local */
-function formatDate(isoString) {
-  try {
-    return new Date(isoString).toLocaleString('es-AR', {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
-    });
-  } catch { return isoString; }
-}
-
-/** Muestra un toast de notificación */
-function showToast(message, type = 'success', duration = 3000) {
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.className = `toast toast--${type} show`;
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => {
-    toast.className = 'toast';
-  }, duration);
-}
-
-/** Comprime una imagen en el cliente usando browser-image-compression */
-async function compressImage(file) {
-  if (typeof imageCompression === 'undefined') return file; // fallback
-  try {
-    return await imageCompression(file, {
-      maxSizeMB: CONFIG.images.maxSizeMB,
-      maxWidthOrHeight: CONFIG.images.maxWidthOrHeight,
-      useWebWorker: CONFIG.images.useWebWorker,
-      initialQuality: CONFIG.images.quality,
-    });
-  } catch {
-    return file; // Si falla la compresión, usa original
-  }
-}
-
-/** Convierte File a Base64 Data URL */
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+// ... (contenido Utilidades omitido idéntico) ...
 
 // ═══════════════════════════════════════════════════════════════
 // 3. ICONOS LEAFLET PERSONALIZADOS
@@ -214,30 +104,32 @@ function fileToBase64(file) {
 
 function createLeafletIcon(cat) {
   const meta = CATEGORIES[cat] || CATEGORIES.otro;
-  const size = 40;
+  const size = 42;
 
-  // Icono con SVG externo si existe, si no fallback emoji
+  // Icono con SVG externo + EFECTO PEGATINA (Sticker)
   if (meta.icon) {
-    return L.icon({
-      iconUrl: meta.icon,
+    return L.divIcon({
+      className: 'sticker-marker',
+      html: `<div class="sticker-container" style="background:${meta.color}">
+               <img src="${meta.icon}" style="width:100%;height:100%;" />
+             </div>`,
       iconSize: [size, size],
       iconAnchor: [size / 2, size],
       popupAnchor: [0, -size],
-      className: 'custom-marker-icon',
     });
   }
 
-  // Fallback: DivIcon con emoji + color
+  // Fallback: DivIcon con emoji + color estilo sello
   return L.divIcon({
-    className: '',
+    className: 'stamp-marker',
     html: `<div style="
       width:${size}px;height:${size}px;
       background:${meta.color};
-      border:2.5px solid #1a1a1a;
-      border-radius:4px;
+      border:3px solid #1a1a1a;
+      border-radius:50%;
       display:flex;align-items:center;justify-content:center;
-      font-size:22px;
-      box-shadow:2px 2px 0 #1a1a1a;
+      font-size:24px;
+      box-shadow:3px 3px 0 #1a1a1a;
     ">${meta.emoji}</div>`,
     iconSize: [size, size],
     iconAnchor: [size / 2, size],

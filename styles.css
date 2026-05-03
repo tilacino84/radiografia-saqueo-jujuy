@@ -10,39 +10,29 @@
   --color-peligro-dark: #E6B800;
   --color-resistencia: #228B22;     /* Verde defensa comunitaria */
   --color-resistencia-dark: #1a6b1a;
-  --color-bg: #f0ede6;              /* Papel envejecido */
-  --color-fg: #1a1a1a;              /* Tinta stencil */
-  --color-card: #faf8f2;
-  --color-border: #1a1a1a;
-  --color-muted: #6b6560;
-  --color-accent-1: #c0392b;        /* Rojo alerta */
-  --color-accent-2: #2c3e50;        /* Azul pizarra */
-  --color-overlay: rgba(26, 26, 26, 0.72);
+  /* Paleta Iconoclasistas (Realista) */
+  --color-primary: #FFD700;    /* Amarillo Oro (Extracción) */
+  --color-secondary: #228B22;  /* Verde Bosque (Defensa) */
+  --color-accent: #EB5449;     /* Rojo Alerta */
+  --color-black: #1A1A1B;      /* Negro Carbón */
+  --color-paper: #E6D5B8;      /* Papel Kraft claro */
+  --color-bg: #F5F5DC;         /* Beige Crudo */
+  
+  /* Tipografía */
+  --font-typewriter: 'Special Elite', system-ui, serif;
+  --font-stencil: 'Bungee', cursive;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  /* Tipografía documental */
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'Inter', sans-serif;
-
-  /* Espaciado */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 40px;
-
-  /* Bordes stencil */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --border-thick: 2.5px solid var(--color-fg);
-  --border-thin: 1.5px solid var(--color-fg);
-
-  /* Sombras */
-  --shadow-card: 3px 3px 0px var(--color-fg);
-  --shadow-modal: 6px 6px 0px var(--color-fg);
-  --shadow-btn: 3px 3px 0px var(--color-fg);
-  --shadow-btn-active: 1px 1px 0px var(--color-fg);
+  /* Texturas */
+  --texture-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 32px;
+  
+  --shadow-stencil: 4px 4px 0px var(--color-black);
+  --border-rough: 2px solid var(--color-black);
 
   /* Sidebar */
   --sidebar-w: 340px;
@@ -79,6 +69,142 @@ body {
   min-height: 100vh;
   overflow: hidden;
   transition: background 0.3s, color 0.3s;
+}
+
+.app-header__title {
+  font-family: var(--font-stencil);
+  font-size: 28px;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-black);
+  text-shadow: 2px 2px 0 var(--color-paper);
+}
+
+.app-header__subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-black);
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   STARKER MARKERS (Efecto Pegatina)
+   ═══════════════════════════════════════════ */
+
+.sticker-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.sticker-container {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  border-radius: 6px;
+  border: 4px solid white; /* Borde de pegatina blanco */
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-3deg); /* Rotación manual azarosa */
+  position: relative;
+  overflow: hidden;
+}
+
+.sticker-container::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: var(--texture-noise);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Sello (para marcadores sin icono) */
+.stamp-marker div {
+  font-family: var(--font-stencil);
+  font-weight: bold;
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR & COMPONENTES RÚSTICOS
+   ═══════════════════════════════════════════ */
+
+.sidebar {
+  background-color: var(--color-paper);
+  border-right: 4px solid var(--color-black);
+  box-shadow: var(--shadow-stencil);
+  position: relative;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: var(--texture-noise);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.sidebar__header {
+  border-bottom: 3px dashed var(--color-black);
+  padding: var(--spacing-md);
+}
+
+.sidebar__title {
+  font-family: var(--font-stencil);
+  font-size: 20px;
+  margin: 0;
+}
+
+/* Botones estilo Stencil/Pegatina */
+.btn {
+  font-family: var(--font-stencil);
+  background: var(--color-accent);
+  color: white;
+  border: 3px solid var(--color-black);
+  box-shadow: 4px 4px 0 var(--color-black);
+  transition: transform 0.1s;
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-black);
+}
+
+.btn--primary {
+  background: var(--color-black);
+  color: var(--color-primary);
+}
+
+.btn--secondary {
+  background: var(--color-secondary);
+}
+
+/* Categoría Activa */
+.category-btn.active {
+  background: var(--color-black);
+  color: white;
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Modal Estilo Carpeta */
+.modal-overlay {
+  background-color: rgba(26, 26, 27, 0.85);
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background-color: var(--color-paper);
+  border: 5px solid var(--color-black);
+  box-shadow: 10px 10px 0 var(--color-black);
+}
+
+.modal__title {
+  font-family: var(--font-stencil);
+  font-size: 24px;
 }
 
 /* --- Fuentes Google --- */

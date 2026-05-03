@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="bevel">
+  <!-- SILUETA DE LLAMA (GUARDIANA DEL TERRITORIO) - ESTILO STENCIL -->
+  <path d="M30 85 V60 L25 45 L35 25 H50 L55 10 H65 V30 L55 45 V60 H70 V85" fill="#1a1a1a" />
+  <!-- Detalle rústico (negativo) -->
+  <circle cx="60" cy="18" r="2" fill="white" />
+  <path d="M35 65 H50" stroke="white" stroke-width="2" />
+  <!-- Símbolo de agua/bienes comunes -->
+  <path d="M20 92 Q35 88 50 92 T80 92" stroke="#1a1a1a" stroke-width="2" />
+</svg>

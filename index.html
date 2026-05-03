@@ -14,10 +14,15 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
   
+  <!-- Google Fonts: Special Elite (Typewriter) & Bungee (Stencil/Impact) -->
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bungee&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
   <!-- App CSS -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Capa de textura global (Noise/Grano) -->
+  <div class="texture-overlay" aria-hidden="true"></div>
 
   <!-- ═══════════════════════════════════════════
        HEADER
@@ -134,6 +139,10 @@
             <button class="category-btn" data-cat="defensa" type="button" aria-pressed="false">
               <span class="category-btn__icon">🛡</span>
               Defensa
+            </button>
+            <button class="category-btn" data-cat="territorio" type="button" aria-pressed="false">
+              <span class="category-btn__icon">🦙</span>
+              Territorio
             </button>
             <button class="category-btn" data-cat="otro" type="button" aria-pressed="false">
               <span class="category-btn__icon">●</span>
