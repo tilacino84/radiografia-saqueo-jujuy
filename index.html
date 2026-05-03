@@ -58,9 +58,18 @@
         <p class="sidebar__title">↓ Reportes recientes</p>
         <div class="filter-tabs" role="tablist" id="filter-tabs">
           <button class="filter-tab active" role="tab" data-filter="todos" aria-selected="true">Todos</button>
-          <button class="filter-tab" role="tab" data-filter="megamineria">⛏ Minería</button>
-          <button class="filter-tab" role="tab" data-filter="monocultivo">🌾 Cultivo</button>
-          <button class="filter-tab active-green" role="tab" data-filter="defensa">🛡 Defensa</button>
+          <button class="filter-tab" role="tab" data-filter="megamineria">
+            <img src="icons/megamineria.svg" class="filter-icon" alt="" aria-hidden="true" /> Minería
+          </button>
+          <button class="filter-tab" role="tab" data-filter="monocultivo">
+            <img src="icons/monocultivo.svg" class="filter-icon" alt="" aria-hidden="true" /> Cultivo
+          </button>
+          <button class="filter-tab active-green" role="tab" data-filter="defensa">
+            <img src="icons/defensa.svg" class="filter-icon" alt="" aria-hidden="true" /> Defensa
+          </button>
+          <button class="filter-tab" role="tab" data-filter="territorio">
+            <img src="icons/llama.svg" class="filter-icon" alt="" aria-hidden="true" /> Territorio
+          </button>
           <button class="filter-tab" role="tab" data-filter="otro">● Otro</button>
         </div>
       </div>
@@ -232,6 +241,6 @@
   <!-- Compresión de imágenes en cliente -->
   <script src="https://unpkg.com/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
   <!-- App -->
-  <script src="app.js"></script>
+  <script src="app-v31.js"></script>
 </body>
 </html>

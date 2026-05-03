@@ -158,12 +158,14 @@ async function init() {
     initMap();
     allReports = await DB.getAll();
     if (allReports.length === 0) {
-      const seed = { id: 's1', fecha: new Date().toISOString(), lat: -23.6, lng: -65.5, categoria: 'megamineria', titulo: 'Ejemplo de conflicto', descripcion: 'Lugar de interés' };
+      const seed = { id: 's1', fecha: new Date().toISOString(), lat: -23.6, lng: -65.5, categoria: 'megamineria', titulo: 'Salinas Grandes - Megaminería', descripcion: 'Zona de conflicto activo por la explotación de litio.' };
       await DB.add(seed);
       allReports = [seed];
     }
     allReports.forEach(addMarker);
     renderFeed();
+    document.getElementById('report-total-badge').textContent = `${allReports.length} reportes`;
+    document.getElementById('feed-count').textContent = `${allReports.length} reportes en lista`;
     initFilters();
     document.getElementById('btn-reportar').addEventListener('click', () => { formState.isSelecting = true; document.getElementById('btn-reportar').classList.add('is-selecting'); document.getElementById('btn-reportar').textContent = 'Cancel'; });
     document.getElementById('btn-submit').addEventListener('click', submitReport);
