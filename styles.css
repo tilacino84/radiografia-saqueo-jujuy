@@ -261,7 +261,8 @@ body {
   object-fit: cover;
   border: var(--border-thin);
   border-radius: var(--radius-sm);
-  background: var(--color-bg);
+  font-weight: 700;
+  color: var(--color-black);
 }
 
 .report-card__thumb--placeholder {
@@ -270,8 +271,6 @@ body {
   justify-content: center;
   font-size: 28px;
 }
-
-.report-card__body {}
 
 .report-card__tag {
   font-family: var(--font-mono);
@@ -298,6 +297,7 @@ body {
   margin-bottom: 4px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

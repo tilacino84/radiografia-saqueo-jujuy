@@ -31,6 +31,7 @@ MAPA EN VIVO/
 ### 1. Crear repositorio
 
 ```bash
+git clone https://github.com/tilacino84/radiografia-saqueo-jujuy.git
 git init
 git add .
 git commit -m "feat: prototipo radiografía del saqueo"
@@ -49,9 +50,11 @@ git push -u origin main
 ### 3. Dominio personalizado (opcional)
 
 Creá un archivo `CNAME` en la raíz con tu dominio:
-```
+
+```text
 radiografia.tuorganizacion.org
 ```
+
 Luego configurá el DNS con un `CNAME` apuntando a `TU_USUARIO.github.io`.
 
 ---
@@ -60,7 +63,7 @@ Luego configurá el DNS con un `CNAME` apuntando a `TU_USUARIO.github.io`.
 
 ```bash
 # Con Python 3
-python -m http.server 8080
+python -m http.server 8000
 
 # Con Node.js
 npx serve . -p 8080
@@ -75,10 +78,17 @@ Encontrá la IP con `ipconfig` (Windows) o `ip addr` (Linux).
 
 ---
 
-## Funcionalidades
+## Funcionalidades y Categorías
+
+| Categoría | Icono | Color | Descripción |
+| :--- | :---: | :---: | :--- |
+| **Megaminería** | ⛏ | `#FFD700` | Salares, minas de litio, impacto hídrico. |
+| **Monocultivo** | 🌾 | `#b8860b` | Tabaco, caña, deforestación en Yungas. |
+| **Defensa** | 🛡 | `#228B22` | Comunidades, asambleas, áreas protegidas. |
+| **Otro** | ● | `#2c3e50` | Otros conflictos territoriales. |
 
 | Función | Estado |
-|---------|--------|
+| :--- | :---: |
 | Mapa base OSM + capas WMS IDEJuy/IGN | ✅ |
 | Marcadores por categoría (stencil SVG) | ✅ |
 | Agrupación de marcadores (clustering) | ✅ |

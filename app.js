@@ -38,7 +38,7 @@ const CONFIG = {
   },
   wms: {
     idejuy: {
-      url: 'https://idujuy.gob.ar/geoserver/ows',
+      url: 'https://ide.jujuy.gob.ar/geoserver/ows',
       layers: ['jujuy:departamentos', 'jujuy:hidrografia'],
       attribution: '© IDEJuy Gobierno de Jujuy',
     },
@@ -249,7 +249,7 @@ function createLeafletIcon(cat) {
 // 4. MAPA (Leaflet)
 // ═══════════════════════════════════════════════════════════════
 
-let map, markerCluster, drawnItems;
+let map, markerCluster, drawnItems, wmsLayer;
 let allMarkers = {}; // id → marker
 
 function initMap() {
@@ -285,7 +285,7 @@ function initMap() {
 
   // --- Capa WMS: IDEJuy (límites dpto. + hidrografía) ---
   try {
-    L.tileLayer.wms('https://idujuy.gob.ar/geoserver/ows', {
+    wmsLayer = L.tileLayer.wms('https://ide.jujuy.gob.ar/geoserver/ows', {
       layers: 'jujuy:departamentos',
       format: 'image/png',
       transparent: true,
@@ -293,6 +293,21 @@ function initMap() {
       attribution: '© IDEJuy',
       version: '1.1.1',
     }).addTo(map);
+
+    // Toggle de visibilidad para el badge
+    const badge = document.getElementById('layer-wms-badge');
+    badge.style.cursor = 'pointer';
+    badge.addEventListener('click', () => {
+      if (map.hasLayer(wmsLayer)) {
+        map.removeLayer(wmsLayer);
+        badge.textContent = 'IDEJuy ○';
+        badge.classList.add('inactive');
+      } else {
+        wmsLayer.addTo(map);
+        badge.textContent = 'IDEJuy ●';
+        badge.classList.remove('inactive');
+      }
+    });
   } catch (e) {
     console.warn('WMS IDEJuy no disponible (modo offline):', e.message);
     document.getElementById('layer-wms-badge').textContent = 'IDEJuy ○';
